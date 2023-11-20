@@ -14,6 +14,7 @@ env:
   CI_MANIFEST_BRANCH: ${{ github.ref_name }}
   CI_RUNNER_PERSISTENT_STORAGE: /home/github-runner/persistent_storage
   CI_DOCKER_PERSISTENT_STORAGE: /home/openharmony/persistent_storage
+  CI_BUILD_TARGETS: rk3568 qemu-arm-linux-min
 
 jobs:
 
@@ -32,18 +33,11 @@ jobs:
     needs: [prepare-image]
 
     container:
-      image: swr.cn-south-1.myhuaweicloud.com/openharmony-docker/openharmony-docker:1.0.0
+      image: registry.hub.docker.com/francescopham/oniro-openharmony-docker
       volumes:
         - ${{ needs.prepare-image.outputs.runner_persistent_storage }}:${{ needs.prepare-image.outputs.docker_persistent_storage }}
 
     steps:
-
-      - name: Set up git-repo
-        run: |
-          if [ ! -f /bin/repo ]; then
-            curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 -o /bin/repo
-            chmod a+x /bin/repo
-          fi
 
       - name: Sync mirror
         run: |
@@ -106,7 +100,9 @@ jobs:
         run: |
           # a shared ccache on persistent storage is used to speed up the build 
           cd repo
-          ./build.sh --ccache --share-ccache "$CI_DOCKER_PERSISTENT_STORAGE"/build-ccache --product-name rk3568
+          for target in $CI_BUILD_TARGETS; do
+            ./build.sh --ccache --share-ccache "$CI_DOCKER_PERSISTENT_STORAGE"/build-ccache --product-name $target
+          done
 
       - name: Archive board image artifacts
         uses: actions/upload-artifact@v3
