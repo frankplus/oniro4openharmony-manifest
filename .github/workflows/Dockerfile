@@ -22,20 +22,6 @@ ARG DEBIAN_FRONTEND="noninteractive"
 RUN curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 -o /bin/repo \
     && chmod a+x /bin/repo
 
-RUN apt-get update -qq && apt-get install -qq -y qemu-system
-
-# # install qemu dependencies
-# RUN apt-get update -qq \
-#     && apt-get install -qq -y \
-#     build-essential zlib1g-dev pkg-config libglib2.0-dev  binutils-dev \
-#     libboost-all-dev autoconf libtool libssl-dev libpixman-1-dev virtualenv \
-#     flex bison 
-
-# # install qemu following https://gitee.com/openharmony/device_qemu/blob/master/README.md
-# RUN wget https://download.qemu.org/qemu-6.2.0.tar.xz \
-#     && tar -xf qemu-6.2.0.tar.xz \
-#     && cd qemu-6.2.0 \
-#     && mkdir build && cd build \
-#     && ../configure \
-#     && make -j16 \
-#     && make install
+RUN apt-get update -qq \
+    && apt-get install -qq -y \
+    qemu-system libxcursor-dev libxrandr-dev libxinerama-dev sudo
