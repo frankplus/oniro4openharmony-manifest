@@ -27,7 +27,7 @@ RUN apt-get update -qq \
     libxcursor-dev libxrandr-dev libxinerama-dev sudo \
     build-essential zlib1g-dev pkg-config libglib2.0-dev  binutils-dev \
     libboost-all-dev autoconf libtool libssl-dev libpixman-1-dev virtualenv \
-    flex bison 
+    flex bison ninja-build
 
 # install qemu following https://gitee.com/openharmony/device_qemu/blob/master/README.md
 RUN wget https://download.qemu.org/qemu-6.2.0.tar.xz \
