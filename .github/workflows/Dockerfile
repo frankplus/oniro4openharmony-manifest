@@ -14,7 +14,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM swr.cn-south-1.myhuaweicloud.com/openharmony-docker/openharmony-docker:1.0.0
+FROM swr.cn-south-1.myhuaweicloud.com/openharmony-docker/docker_oh_standard:3.2
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -27,13 +27,28 @@ RUN apt-get update -qq \
     libxcursor-dev libxrandr-dev libxinerama-dev sudo \
     build-essential zlib1g-dev pkg-config libglib2.0-dev  binutils-dev \
     libboost-all-dev autoconf libtool libssl-dev libpixman-1-dev virtualenv \
-    flex bison ninja-build
+    flex bison ninja-build parted
 
-# install qemu following https://gitee.com/openharmony/device_qemu/blob/master/README.md
-RUN wget https://download.qemu.org/qemu-6.2.0.tar.xz \
-    && tar -xf qemu-6.2.0.tar.xz \
-    && cd qemu-6.2.0 \
-    && mkdir build && cd build \
-    && ../configure \
-    && make -j16 \
-    && make install
+# Set working directory
+WORKDIR /opt
+
+# Download QEMU sources
+RUN wget https://download.qemu.org/qemu-6.2.0.tar.xz
+
+# Extract the sources
+RUN tar -xf qemu-6.2.0.tar.xz && \
+    rm qemu-6.2.0.tar.xz
+
+# Enter the extracted directory
+WORKDIR /opt/qemu-6.2.0
+
+# Configure and install QEMU
+RUN ./configure && \
+    make && \
+    make install
+
+# Clean up by removing the sources
+WORKDIR /opt
+RUN rm -rf qemu-6.2.0
+
+WORKDIR /home/openharmony
