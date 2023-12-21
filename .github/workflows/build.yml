@@ -12,36 +12,21 @@ env:
   CI_MANIFEST_URL: ${{ github.server_url }}/${{ github.repository }}
   CI_MANIFEST_NAME: default.xml
   CI_MANIFEST_BRANCH: ${{ github.ref_name }}
-  CI_RUNNER_PERSISTENT_STORAGE: /home/github-runner/persistent_storage
-  CI_DOCKER_PERSISTENT_STORAGE: /home/openharmony/persistent_storage
 
 jobs:
 
-  prepare-image:
-    # workaround to env variable non being available in pull_sources.containers.volumes
-    # this job simply forwards env variables to job's output. 
-    runs-on: self-hosted
-    outputs:
-      runner_persistent_storage: ${{ env.CI_RUNNER_PERSISTENT_STORAGE }}
-      docker_persistent_storage: ${{ env.CI_DOCKER_PERSISTENT_STORAGE }}
-    steps:       
-      - run: true
-
   pull_sources:
-    runs-on: self-hosted
-    needs: [prepare-image]
+    runs-on: ubuntu-latest
 
     container:
       image: swr.cn-south-1.myhuaweicloud.com/openharmony-docker/docker_oh_standard:3.2
-      volumes:
-        - ${{ needs.prepare-image.outputs.runner_persistent_storage }}:${{ needs.prepare-image.outputs.docker_persistent_storage }}
 
     steps:
 
       - name: Set up git-repo
         run: |
           if [ ! -f /bin/repo ]; then
-            curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 -o /bin/repo
+            curl https://storage.googleapis.com/git-repo-downloads/repo -o /bin/repo
             chmod a+x /bin/repo
           fi
 
