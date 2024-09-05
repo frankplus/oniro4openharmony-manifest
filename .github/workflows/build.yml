@@ -3,13 +3,15 @@ name: Pull Sources from Manifest and build
 on:
   push:
     branches:
-      - '*'
+      - 'OpenHarmony-4.1-Release'
   pull_request:
     branches:
-      - '*'
+      - 'OpenHarmony-4.1-Release'
+  schedule:
+    - cron: '0 1 * * *'
 
 env:
-  CI_MANIFEST_NAME: default.xml
+  CI_MANIFEST_NAME: oniro.xml
 
 jobs:
 
@@ -30,7 +32,6 @@ jobs:
             /__w/repo-mirrors/.repo
             /__w/repo-mirrors/developtools_smartperf_host.git
             /__w/repo-mirrors/developtools_profiler.git
-            /__w/repo-mirrors/docs.git
             /__w/repo-mirrors/global_i18n.git
             /__w/repo-mirrors/multimedia_av_codec.git
             /__w/repo-mirrors/update_updater.git
@@ -92,7 +93,6 @@ jobs:
             /__w/repo-mirrors/.repo
             /__w/repo-mirrors/developtools_smartperf_host.git
             /__w/repo-mirrors/developtools_profiler.git
-            /__w/repo-mirrors/docs.git
             /__w/repo-mirrors/global_i18n.git
             /__w/repo-mirrors/multimedia_av_codec.git
             /__w/repo-mirrors/update_updater.git
