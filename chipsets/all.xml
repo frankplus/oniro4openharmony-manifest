@@ -22,4 +22,5 @@
   <include name="chipsets/alientek/alientek.xml" />
   <include name="chipsets/hpm6750evk2/hpm6750evk2.xml" />
   <include name="chipsets/beken_7235/beken_7235.xml" />
+  <include name="chipsets/rpi/rpi.xml" />
 </manifest>
