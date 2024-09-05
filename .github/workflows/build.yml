@@ -49,7 +49,7 @@ jobs:
       - name: Set up git-repo
         run: |
           if [ ! -f /bin/repo ]; then
-            curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 -o /bin/repo
+            curl https://storage.googleapis.com/git-repo-downloads/repo -o /bin/repo
             chmod a+x /bin/repo
           fi
 
@@ -79,7 +79,7 @@ jobs:
             mkdir -p "$REPO_MIRROR" ;
             pushd "$REPO_MIRROR" ;
             repo init -u "$GITHUB_WORKSPACE" -m "$CI_MANIFEST_NAME" --mirror ;
-            repo sync -c --no-repo-verify --force-sync -v;
+            repo sync -c --no-repo-verify --force-sync;
             popd ;
           else
             echo "Reusing repo mirror @ $REPO_MIRROR" ;
@@ -113,7 +113,7 @@ jobs:
             --reference /__w/repo-mirrors \
             --manifest-url "$GITHUB_WORKSPACE" \
             --manifest-name "$CI_MANIFEST_NAME"
-          repo sync -c --no-repo-verify --force-sync -v
+          repo sync -c --no-repo-verify --force-sync
           repo forall -c 'git lfs pull'
 
       - name: Cache restore OpenHarmony prebuilts
