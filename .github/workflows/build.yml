@@ -142,7 +142,7 @@ jobs:
           key: build-ccache-${{ github.sha }}
 
       - name: Archive board image artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rk3568
           path: /__w/manifest/manifest/repo/out/rk3568/packages/phone/images/*
