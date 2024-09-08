@@ -120,8 +120,8 @@ jobs:
         run: |
           cd repo && ./build/prebuilts_download.sh
 
-      - name: ccache
-        uses: actions/cache@v4
+      - name: restore ccache
+        uses: actions/cache/restore@v4
         with:
           path: /github/home/.ccache
           key: build-ccache-${{ github.sha }}
@@ -132,7 +132,14 @@ jobs:
           # a shared ccache is used to speed up the build 
           # a 5h timeout is set to prevent the job from exeeding the 6h limit and
           # allow it to save the ccache and speedup the next run
-          cd repo && timeout 5h ./build.sh --ccache --product-name rk3568 || true
+          cd repo && timeout 5h ./build.sh --ccache --product-name rk3568
+
+      - name: save ccache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: /github/home/.ccache
+          key: build-ccache-${{ github.sha }}
 
       - name: Archive board image artifacts
         uses: actions/upload-artifact@v3
