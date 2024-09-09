@@ -128,8 +128,8 @@ jobs:
         run: |
           cd repo
 
-          # if building rpi4b, apply patches to the system
-          if [ "${{ inputs.build-target }}" = "rpi4b" ]; then
+          # if building rpi4, apply patches to the system
+          if [ "${{ inputs.build-target }}" = "rpi4" ]; then
             ./device/board/rpi/system_patch/system_patch.sh
           fi
 

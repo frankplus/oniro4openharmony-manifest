@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       build-target: rk3568
-  build-rpi4b:
+  build-rpi4:
     uses: ./.github/workflows/build.yml
     with:
-      build-target: rpi4b
+      build-target: rpi4
